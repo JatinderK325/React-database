@@ -5,6 +5,9 @@ import './App.css';
 
 function App() {
   const [movies, setMovies] = useState([]);
+  // To show loading spinner or loading text, in react its just managing state. we can tell whether waiting or not.
+  const [isLoading, setIsLoading] = useState(false);
+
   /* const dummyMovies = [
     {
       id: 1,
@@ -39,6 +42,7 @@ function App() {
 
   // when we are dealing with 'promises', we can build 'then' calls. we can also use its alternative syntax. Alternative syntax: using async/await.....
   async function fetchMoviesHandler() {
+    setIsLoading(true);
     const response = await fetch('https://swapi.dev/api/films/');
     const data = await response.json();
 
@@ -51,6 +55,7 @@ function App() {
       };
     });
     setMovies(transformedMovies);
+    setIsLoading(false);
   }
 
   return (
@@ -59,7 +64,10 @@ function App() {
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
       <section>
-        <MoviesList movies={movies} />
+        {!isLoading && movies.length>0 && <MoviesList movies={movies} />}
+        {/* to show content when we are not loading but did not get movies yet, means if movies' array is empty. */}
+        {!isLoading && movies.length === 0 && <p>No movies found!</p>}
+        {isLoading && <p>Loading...</p>}
       </section>
     </React.Fragment>
   );
