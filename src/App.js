@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import MoviesList from './components/MoviesList';
 import './App.css';
@@ -24,7 +24,7 @@ function App() {
       releaseDate: '2021-05-19',
     },
   ]; */
-  // we will use fetch API to fetch movies :
+  // we will use fetch API to fetch movies : using GET request
   /*
   function fetchMoviesHandler() { 
     fetch('https://swapi.dev/api/films/').then((response) => {
@@ -43,7 +43,7 @@ function App() {
   } */
 
   // when we are dealing with 'promises', we can build 'then' calls. we can also use its alternative syntax. Alternative syntax: using async/await.....
-  async function fetchMoviesHandler() {
+  const fetchMoviesHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
@@ -69,7 +69,12 @@ function App() {
       setError(error.message);
     }
     setIsLoading(false);
-  }
+  }, []);
+
+  // using useEffect() to make sure that we send a http request immediately when a component loads not only on the click of the button.
+  useEffect(() => {
+    fetchMoviesHandler();
+  }, [fetchMoviesHandler]); // here we have added 'fetchMoviesHandler' as a dependency for the 'useEffect'. As we know functions are the objects and whenever the component re-executes, it will be re-created again and again that's why we need to wrap 'fetchMoviesHandler' with 'useCallback' and to use dependency with useCallback in order to re-create function only in the given condition (dependency) in the dependency array of useCallback.  
 
   return (
     <React.Fragment>
