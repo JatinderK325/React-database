@@ -24,6 +24,7 @@ function App() {
     setFilteredData(transformedUsers);
   }, []);
 
+  // for rendering
   useEffect(() => {
     fetchUsersHandler();
   }, [fetchUsersHandler]);
