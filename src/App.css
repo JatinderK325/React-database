@@ -9,13 +9,15 @@ section {
 }
 
 .search {
-  font: inherit;
+  margin-top: 10px;
+  font: bold;
   cursor: pointer;
   background: #1c5175;
   border: 1px solid #1c5175;
   color: white;
   padding: 0.75rem 2rem;
   border-radius: 20px;
+  text-align: center;
 }
 
 search:focus {
